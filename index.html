@@ -586,6 +586,193 @@
             margin-bottom: 8px;
         }
 
+        /* CMD Terminal Styles */
+        .cmd-body {
+            background: #000;
+            color: #33ff33;
+            font-family: 'Courier New', 'Lucida Console', monospace;
+            font-size: 13px;
+            padding: 10px;
+            height: 320px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            line-height: 1.5;
+        }
+
+        .cmd-body .cmd-prompt {
+            color: #c0c0c0;
+        }
+
+        .cmd-body .cmd-dir-header {
+            color: #aaa;
+        }
+
+        .cmd-body .cmd-project-name {
+            color: #ffff33;
+            font-weight: bold;
+        }
+
+        .cmd-body .cmd-date {
+            color: #00bfff;
+        }
+
+        .cmd-body .cmd-desc {
+            color: #33ff33;
+        }
+
+        .cmd-cursor {
+            display: inline-block;
+            width: 8px;
+            height: 14px;
+            background: #33ff33;
+            animation: blink-cursor 1s step-end infinite;
+            vertical-align: text-bottom;
+        }
+
+        @keyframes blink-cursor {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
+        }
+
+        /* Education Control Panel Styles */
+        .edu-panel {
+            background: #ece9d8;
+            font-size: 12px;
+        }
+
+        .edu-panel-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 10px;
+            background: linear-gradient(to right, #0058e6, #3a8cf3);
+            color: white;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        .edu-panel-header img {
+            width: 20px;
+            height: 20px;
+        }
+
+        .edu-program-list {
+            padding: 8px;
+        }
+
+        .edu-program {
+            background: white;
+            border: 1px solid #aaa;
+            border-radius: 2px;
+            padding: 10px;
+            margin-bottom: 8px;
+        }
+
+        .edu-program-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .edu-program-row img {
+            width: 32px;
+            height: 32px;
+        }
+
+        .edu-program-name {
+            font-weight: bold;
+            font-size: 13px;
+            color: #000;
+        }
+
+        .edu-program-version {
+            color: #666;
+            font-size: 11px;
+        }
+
+        .edu-details {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: 4px 8px;
+            font-size: 11px;
+            margin-top: 5px;
+            padding-left: 42px;
+        }
+
+        .edu-details .label {
+            color: #444;
+            font-weight: bold;
+        }
+
+        .edu-details .value {
+            color: #000;
+        }
+
+        .edu-progress-container {
+            margin-top: 8px;
+            padding-left: 42px;
+        }
+
+        .edu-progress-label {
+            font-size: 10px;
+            color: #666;
+            margin-bottom: 3px;
+        }
+
+        .edu-progress-bar {
+            width: 100%;
+            height: 14px;
+            background: #ddd;
+            border: 1px solid #999;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .edu-progress-fill {
+            height: 100%;
+            background: linear-gradient(to bottom, #3f8cf3 0%, #245edb 50%, #1a4bb8 100%);
+            border-radius: 1px;
+            transition: width 2s ease-in-out;
+        }
+
+        .edu-skills-section {
+            margin-top: 10px;
+            padding: 8px;
+            background: white;
+            border: 1px solid #aaa;
+            border-radius: 2px;
+        }
+
+        .edu-skills-title {
+            font-weight: bold;
+            font-size: 11px;
+            margin-bottom: 6px;
+            color: #000080;
+        }
+
+        .edu-skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+
+        .edu-skill-tag {
+            background: linear-gradient(to bottom, #f0f0f0, #ddd);
+            border: 1px solid #999;
+            border-radius: 2px;
+            padding: 2px 6px;
+            font-size: 10px;
+            color: #333;
+        }
+
         /* Game Styles */
         .game-iframe {
             width: 100%;
@@ -966,6 +1153,20 @@
                 alt="Doom" style="object-fit: contain; width: 48px;">
             <span>DOOM</span>
         </div>
+        <div class="desktop-icon"
+            onclick="openWindow('win-projects', 'Projects', 'https://raw.githubusercontent.com/ShizukuIchi/winXP/master/src/assets/windowsIcons/318(16x16).png')">
+            <img class="icon-img"
+                src="https://raw.githubusercontent.com/ShizukuIchi/winXP/master/src/assets/windowsIcons/318(16x16).png"
+                alt="Projects">
+            <span>Projects</span>
+        </div>
+        <div class="desktop-icon"
+            onclick="openWindow('win-education', 'Education', 'https://raw.githubusercontent.com/ShizukuIchi/winXP/master/src/assets/windowsIcons/227(16x16).png')">
+            <img class="icon-img"
+                src="https://raw.githubusercontent.com/ShizukuIchi/winXP/master/src/assets/windowsIcons/227(16x16).png"
+                alt="Education">
+            <span>Education</span>
+        </div>
 
         <!-- Extracted Network Places -->
         <a class="desktop-icon" href="https://www.rityatra.in/" target="_blank" style="text-decoration:none;">
@@ -1021,11 +1222,13 @@
                             <p>Microsoft Windows XP<br>Professional<br>Version 2002<br>Service Pack 3</p>
                             <hr>
                             <h4>Registered to:</h4>
-                            <p>Anto<br>55532-OEM-0011903-00100</p>
+                            <p>Anto Merary S<br>Chennai, Tamil Nadu<br>+91
+                                7598241507<br>antomerary.240017@csbs.ritchennai.edu.in</p>
                             <hr>
                             <h4>Computer:</h4>
-                            <p>System Architect // AI & ML Engineer.<br>Executing CSBS protocols at Rajalakshmi
-                                Institute of Technology.<br>Genuine Intel(R) CPU<br>3.20 GHz, 16.0 GB of RAM</p>
+                            <p>Full Stack Developer // AI & Autonomous Systems Engineer.<br>B.Tech Computer Science @
+                                Rajalakshmi Institute of Technology<br>CGPA: 8.00/10 | 2024 – 2028<br>Genuine Intel(R)
+                                CPU<br>3.20 GHz, 16.0 GB of RAM</p>
                         </div>
                     </div>
                 </div>
@@ -1060,28 +1263,55 @@
                     <span><u>H</u>elp</span>
                 </div>
                 <textarea class="notepad-textarea" readonly>
-==================================================
-              PROFESSIONAL EXPERIENCE             
-==================================================
+===================================================
+              PROFESSIONAL EXPERIENCE              
+===================================================
 
-> Qkrishi
-  Role: Front-End & AI Engineer Intern
+> YATRA'26 - Rajalakshmi Institute Of Technology
+  Role: Lead Full Stack Developer
+  Period: Jan 2026 - Present
+  Details: Designed and deployed the official
+  ticketing portal (rityatra.in) for the college
+  cultural fest. Built responsive full-stack
+  architecture for high-concurrency ticket booking,
+  integrated secure payment gateways, and
+  implemented QR-code generation for real-time
+  event entry validation.
 
-> Yatra '26
-  Role: Full-Stack Lead
-  Details: Built full ticketing infrastructure and 
-  integrated CCAvenue payment gateway.
+---------------------------------------------------
 
-> Project SENTINEL (IIT-M Hackathon)
-  Role: AI Engineer
-  Details: Developed AI solutions for Safe & 
-  Sustainable Mobility.
+> RMCHRI - Rajalakshmi Institute Of Technology
+  Role: Full Stack Developer
+  Period: May 2025 - Jul 2025
+  Details: Developed and deployed a secure,
+  scalable web platform for RMCHRI (rmchri.in)
+  using Next.js, Express.js, and MongoDB.
+  Engineered intuitive dashboards to streamline
+  faculty data management.
 
-> CropSense AI (Smart India Hackathon)
-  Role: AI Developer
-  Details: Created agricultural monitoring AI.
+---------------------------------------------------
 
-==================================================
+> ISRO Robotics Challenge - URSC 2025
+  Role: Autonomous Systems Developer
+  Period: Dec 2024 - Apr 2025
+  Details: Engineered a multi-agent drone system
+  for Mars terrain exploration in GPS-denied
+  environments. Implemented collective intelligence
+  algorithms for swarm coordination and real-time
+  path replanning. Integrated SLAM-based navigation
+  with custom sensor fusion pipelines.
+
+---------------------------------------------------
+
+> Kaze
+  Role: Founder & Technical Lead
+  Period: Jul 2024 - Present
+  Details: Architected the technical infrastructure
+  for a direct-to-consumer fashion platform.
+  Leveraged data analytics to track user engagement
+  and optimize marketing funnels.
+
+===================================================
 EOF</textarea>
             </div>
         </div>
@@ -1173,31 +1403,43 @@ EOF</textarea>
                                 </div>
                             </div>
                             <div class="web-main">
-                                <h2>🕸️ Web Technologies</h2>
+                                <h2>💻 Languages</h2>
                                 <ul>
+                                    <li><b>Python</b> - Primary scripting & AI language.</li>
+                                    <li><b>Java</b> - OOP & enterprise applications.</li>
+                                    <li><b>C++</b> - Systems & competitive programming.</li>
+                                    <li><b>JavaScript</b> - Full-stack web development.</li>
+                                    <li><b>SQL</b> - Database querying & management.</li>
+                                </ul>
+
+                                <h2>🕸️ Web & Tools</h2>
+                                <ul>
+                                    <li><b>Next.js</b> - React framework for production.</li>
+                                    <li><b>Express.js</b> - Backend API development.</li>
+                                    <li><b>MongoDB</b> - NoSQL database solutions.</li>
                                     <li><b>React</b> - Component-driven UI.</li>
-                                    <li><b>Vite</b> - Next-generation frontend tooling.</li>
-                                    <li><b>Tailwind CSS</b> - Utility-first styling framework.</li>
+                                    <li><b>Git / Docker / MLOps</b> - DevOps pipeline.</li>
                                 </ul>
 
-                                <h2>🧠 Core AI & Logic</h2>
+                                <h2>🧠 AI & Machine Learning</h2>
                                 <ul>
-                                    <li><b>Python</b> - Primary scripting & modeling language.</li>
-                                    <li><b>Machine Learning</b> - Predictive models & data pipelines.</li>
-                                    <li><b>Data Structures & Algorithms</b> - Optimized problem solving.</li>
-                                    <li><b>Quantum Algorithms</b> - QAOA, VQE research.</li>
+                                    <li><b>Deep Learning</b> - Neural network architectures.</li>
+                                    <li><b>VLM & Diffusion Models</b> - Vision-language & generative AI.</li>
+                                    <li><b>NLP</b> - Natural language processing pipelines.</li>
+                                    <li><b>TensorFlow / Keras</b> - Model training & deployment.</li>
                                 </ul>
 
-                                <h2>⚙️ Hardware & Robotics</h2>
+                                <h2>🔬 Core Concepts</h2>
                                 <ul>
-                                    <li><b>ESP32 Autonomous Robotics</b> - Embedded systems.</li>
-                                    <li><b>Line Followers</b> - Sensor integration and PID control.</li>
+                                    <li><b>OOP</b> - Object-Oriented Design patterns.</li>
+                                    <li><b>DSA</b> - Data Structures & Algorithms.</li>
+                                    <li><b>System Design</b> - Scalable architecture.</li>
                                 </ul>
 
-                                <h2>🚧 Currently Building</h2>
+                                <h2>⚛️ Quantum Computing</h2>
                                 <ul>
-                                    <li><b>2D Physics Game Engine</b> - Built from scratch in Python, heavily inspired
-                                        by the atmospheric physics of <i>Limbo</i>.</li>
+                                    <li><b>QAOA</b> - Quantum Approximate Optimization.</li>
+                                    <li><b>Hybrid Computing</b> - Quantum-classical algorithms.</li>
                                 </ul>
                             </div>
                         </div>
@@ -1284,6 +1526,140 @@ EOF</textarea>
             </div>
         </div>
 
+        <!-- CMD-Style Projects Window -->
+        <div class="window" id="win-projects" style="width: 600px; left: 25%; top: 12%;">
+            <div class="title-bar">
+                <div class="title-bar-text">
+                    <img src="https://raw.githubusercontent.com/ShizukuIchi/winXP/master/src/assets/windowsIcons/318(16x16).png"
+                        class="title-bar-icon" alt="">
+                    C:\ANTO\PROJECTS - Command Prompt
+                </div>
+                <div class="title-bar-controls">
+                    <button aria-label="Minimize"></button>
+                    <button aria-label="Maximize"></button>
+                    <button aria-label="Close" onclick="closeWindow('win-projects')"></button>
+                </div>
+            </div>
+            <div class="window-body cmd-body">
+                <span class="cmd-prompt">Microsoft Windows XP [Version 5.1.2600]</span>
+                <span class="cmd-prompt">(C) Copyright 1985-2001 Microsoft Corp.</span>
+
+                <span class="cmd-prompt">C:\ANTO\PROJECTS&gt;</span> dir /w
+                <span class="cmd-dir-header"> Volume in drive C has no label.</span>
+                <span class="cmd-dir-header"> Directory of C:\ANTO\PROJECTS</span>
+
+                <span class="cmd-project-name">[Reddit_Persona_Generator]</span> <span
+                    class="cmd-project-name">[QAOA_Portfolio_Optimizer]</span>
+                <span class="cmd-dir-header"> 2 Dir(s) 42,069 bytes free</span>
+
+                <span class="cmd-prompt">C:\ANTO\PROJECTS&gt;</span> type README_01.txt
+
+                <span class="cmd-project-name">╔══════════════════════════════════════════════╗</span>
+                <span class="cmd-project-name">║ Reddit Persona Generator (NLP & LLMs) ║</span>
+                <span class="cmd-project-name">╚══════════════════════════════════════════════╝</span>
+                <span class="cmd-date"> Date: Jul 2025</span>
+                <span class="cmd-desc"> Built an AI-powered engine to analyze Reddit</span>
+                <span class="cmd-desc"> user profiles and generate comprehensive user</span>
+                <span class="cmd-desc"> personas using advanced NLP and quantized LLMs.</span>
+                <span class="cmd-desc"> Processed unstructured social media text data</span>
+                <span class="cmd-desc"> to derive behavioral insights.</span>
+
+                <span class="cmd-prompt">C:\ANTO\PROJECTS&gt;</span> type README_02.txt
+
+                <span class="cmd-project-name">╔══════════════════════════════════════════════╗</span>
+                <span class="cmd-project-name">║ Portfolio Optimization using QAOA ║</span>
+                <span class="cmd-project-name">║ (Quantum Computing) ║</span>
+                <span class="cmd-project-name">╚══════════════════════════════════════════════╝</span>
+                <span class="cmd-date"> Date: Aug 2025</span>
+                <span class="cmd-desc"> Implemented the Quantum Approximate Optimization</span>
+                <span class="cmd-desc"> Algorithm (QAOA) to solve combinatorial financial</span>
+                <span class="cmd-desc"> problems, demonstrating practical application of</span>
+                <span class="cmd-desc"> hybrid quantum-classical algorithms.</span>
+
+                <span class="cmd-prompt">C:\ANTO\PROJECTS&gt;</span> <span class="cmd-cursor"></span>
+            </div>
+        </div>
+
+        <!-- Education Control Panel Window -->
+        <div class="window" id="win-education" style="width: 450px; left: 30%; top: 18%;">
+            <div class="title-bar">
+                <div class="title-bar-text">
+                    <img src="https://raw.githubusercontent.com/ShizukuIchi/winXP/master/src/assets/windowsIcons/227(16x16).png"
+                        class="title-bar-icon" alt="">
+                    Add or Remove Programs
+                </div>
+                <div class="title-bar-controls">
+                    <button aria-label="Minimize"></button>
+                    <button aria-label="Maximize"></button>
+                    <button aria-label="Close" onclick="closeWindow('win-education')"></button>
+                </div>
+            </div>
+            <div class="window-body edu-panel">
+                <div class="edu-panel-header">
+                    <img src="https://raw.githubusercontent.com/ShizukuIchi/winXP/master/src/assets/windowsIcons/227(16x16).png"
+                        alt="">
+                    Currently Installed Programs
+                </div>
+                <div class="edu-program-list">
+                    <div class="edu-program">
+                        <div class="edu-program-row">
+                            <img src="https://raw.githubusercontent.com/ShizukuIchi/winXP/master/src/assets/windowsIcons/676(32x32).png"
+                                alt="">
+                            <div>
+                                <div class="edu-program-name">B.Tech, Computer Science & Engineering</div>
+                                <div class="edu-program-version">Version 8.00 (CGPA)</div>
+                            </div>
+                        </div>
+                        <div class="edu-details">
+                            <span class="label">Publisher:</span>
+                            <span class="value">Rajalakshmi Institute of Technology</span>
+                            <span class="label">Location:</span>
+                            <span class="value">Chennai, Tamil Nadu</span>
+                            <span class="label">Install Date:</span>
+                            <span class="value">2024 – 2028</span>
+                            <span class="label">Size:</span>
+                            <span class="value">~4 years (8 semesters)</span>
+                            <span class="label">Status:</span>
+                            <span class="value" style="color: #009900; font-weight: bold;">● In Progress</span>
+                        </div>
+                        <div class="edu-progress-container">
+                            <div class="edu-progress-label">Installation Progress: 50% complete</div>
+                            <div class="edu-progress-bar">
+                                <div class="edu-progress-fill" id="edu-progress" style="width: 0%;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="edu-skills-section">
+                        <div class="edu-skills-title">📦 Installed Components (Skills)</div>
+                        <div class="edu-skill-tags">
+                            <span class="edu-skill-tag">Python</span>
+                            <span class="edu-skill-tag">Java</span>
+                            <span class="edu-skill-tag">C++</span>
+                            <span class="edu-skill-tag">JavaScript</span>
+                            <span class="edu-skill-tag">SQL</span>
+                            <span class="edu-skill-tag">Next.js</span>
+                            <span class="edu-skill-tag">Express.js</span>
+                            <span class="edu-skill-tag">MongoDB</span>
+                            <span class="edu-skill-tag">React</span>
+                            <span class="edu-skill-tag">Git</span>
+                            <span class="edu-skill-tag">Docker</span>
+                            <span class="edu-skill-tag">Deep Learning</span>
+                            <span class="edu-skill-tag">NLP</span>
+                            <span class="edu-skill-tag">TensorFlow</span>
+                            <span class="edu-skill-tag">QAOA</span>
+                            <span class="edu-skill-tag">System Design</span>
+                            <span class="edu-skill-tag">OOP</span>
+                            <span class="edu-skill-tag">DSA</span>
+                        </div>
+                    </div>
+                </div>
+                <div style="text-align: right; margin-top: 8px; padding: 0 8px 8px;">
+                    <button onclick="closeWindow('win-education')">Close</button>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <!-- Start Menu -->
@@ -1329,17 +1705,19 @@ EOF</textarea>
                         style="object-fit: contain; width: 36px;"> DOOM
                 </div>
                 <div style="border-top: 1px solid #d3e5fa; margin: 5px 0;"></div>
-                <div class="start-menu-item">
+                <div class="start-menu-item"
+                    onclick="openWindow('win-projects', 'Projects', 'https://raw.githubusercontent.com/ShizukuIchi/winXP/master/src/assets/windowsIcons/318(16x16).png'); toggleStartMenu();">
                     <img class="icon"
                         src="https://raw.githubusercontent.com/ShizukuIchi/winXP/master/src/assets/windowsIcons/318(16x16).png"
                         alt="">
                     Projects
                 </div>
-                <div class="start-menu-item">
+                <div class="start-menu-item"
+                    onclick="openWindow('win-education', 'Education', 'https://raw.githubusercontent.com/ShizukuIchi/winXP/master/src/assets/windowsIcons/227(16x16).png'); toggleStartMenu();">
                     <img class="icon"
                         src="https://raw.githubusercontent.com/ShizukuIchi/winXP/master/src/assets/windowsIcons/227(16x16).png"
-                        alt=""> Tech
-                    Stack
+                        alt="">
+                    Education
                 </div>
                 <div style="margin-top: auto; border-top: 1px solid #d3e5fa; padding-top: 5px;">
                     <div class="start-menu-item bold">
@@ -1898,6 +2276,21 @@ EOF</textarea>
                 }, 12000);
             }
         }, 3000);
+
+        // --- Education Progress Bar Animation ---
+        const eduWindow = document.getElementById('win-education');
+        if (eduWindow) {
+            const observer = new MutationObserver(() => {
+                if (eduWindow.style.display === 'block') {
+                    const bar = document.getElementById('edu-progress');
+                    if (bar) {
+                        bar.style.width = '0%';
+                        setTimeout(() => { bar.style.width = '50%'; }, 100);
+                    }
+                }
+            });
+            observer.observe(eduWindow, { attributes: true, attributeFilter: ['style'] });
+        }
 
     </script>
 </body>
