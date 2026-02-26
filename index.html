@@ -1,0 +1,1891 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anto - Windows XP Portfolio</title>
+    <link rel="stylesheet" href="https://unpkg.com/xp.css">
+    <style>
+        /* Base Reset & Wallpaper */
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: Tahoma, 'Segoe UI', Geneva, sans-serif;
+            background: url('https://wallpaperaccess.com/full/90278.jpg') no-repeat center center fixed;
+            background-size: cover;
+            user-select: none;
+        }
+
+        /* Desktop Environment */
+        .desktop {
+            display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
+            align-content: flex-start;
+            height: calc(100vh - 30px);
+            padding: 10px;
+            gap: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .desktop-icon {
+            width: 70px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            cursor: pointer;
+            padding: 4px;
+            border: 1px solid transparent;
+        }
+
+        .desktop-icon:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            border: 1px dotted rgba(255, 255, 255, 0.5);
+        }
+
+        .desktop-icon .icon-img {
+            width: 32px;
+            height: 32px;
+            margin-bottom: 5px;
+            filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.4));
+        }
+
+        .desktop-icon span {
+            color: white;
+            font-size: 11px;
+            text-shadow: 1px 1px 2px black, 0 0 1em black;
+        }
+
+        /* Taskbar */
+        .taskbar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 30px;
+            background: linear-gradient(to bottom, #245edb 0%, #3f8cf3 9%, #245edb 18%, #245edb 92%, #333 100%);
+            display: flex;
+            justify-content: space-between;
+            z-index: 10000;
+        }
+
+        .taskbar-left {
+            display: flex;
+            align-items: center;
+            height: 100%;
+            flex-grow: 1;
+        }
+
+        /* Start Button */
+        .start-btn {
+            background: linear-gradient(to bottom, #41961e 0%, #368213 10%, #2f690c 100%);
+            border: none;
+            border-radius: 0 10px 10px 0;
+            color: white;
+            font-weight: bold;
+            font-style: italic;
+            font-size: 14px;
+            padding: 0 15px 0 10px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: inset 1px 1px 2px rgba(255, 255, 255, 0.7), 2px 0px 3px rgba(0, 0, 0, 0.5);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .start-btn:hover {
+            background: linear-gradient(to bottom, #50b325 0%, #41961e 10%, #368213 100%);
+        }
+
+        .start-btn::before {
+            content: "";
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            margin-right: 5px;
+            background: url('https://img.icons8.com/?size=100&id=17854&format=png&color=000000') no-repeat center center;
+            background-size: contain;
+            filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.5));
+        }
+
+        /* Taskbar Items */
+        .taskbar-items {
+            display: flex;
+            gap: 2px;
+            margin-left: 10px;
+            height: 100%;
+            align-items: center;
+        }
+
+        .taskbar-item {
+            background: linear-gradient(to bottom, #3b7ee0 0%, #2860c2 100%);
+            border: 1px solid #144985;
+            border-radius: 2px;
+            color: white;
+            padding: 0 10px;
+            height: 24px;
+            min-width: 120px;
+            max-width: 150px;
+            display: flex;
+            align-items: center;
+            font-size: 11px;
+            cursor: pointer;
+            box-shadow: inset 1px 1px 1px rgba(255, 255, 255, 0.3);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .taskbar-item:hover {
+            background: linear-gradient(to bottom, #4c8ee8 0%, #3470d6 100%);
+        }
+
+        .taskbar-item.active {
+            background: linear-gradient(to bottom, #1e4a9e 0%, #17387a 100%);
+            box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        .taskbar-item .icon {
+            width: 16px;
+            height: 16px;
+            margin-right: 5px;
+        }
+
+        /* System Tray */
+        .system-tray {
+            background: linear-gradient(to bottom, #0cb0e0 0%, #0681c4 100%);
+            border-left: 1px solid #144985;
+            padding: 0 15px;
+            display: flex;
+            align-items: center;
+            color: white;
+            font-size: 11px;
+            box-shadow: inset 1px 0px 1px rgba(255, 255, 255, 0.4);
+            cursor: default;
+        }
+
+        /* Start Menu */
+        .start-menu {
+            position: fixed;
+            bottom: 30px;
+            left: 0;
+            width: 380px;
+            height: 420px;
+            background: white;
+            border: 1px solid #0055e5;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+            box-shadow: 2px -2px 5px rgba(0, 0, 0, 0.3);
+            display: none;
+            flex-direction: column;
+            z-index: 10001;
+        }
+
+        .start-menu-header {
+            background: linear-gradient(to bottom, #245edb 0%, #3f8cf3 100%);
+            padding: 10px;
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
+        }
+
+        .start-menu-header .avatar {
+            width: 40px;
+            height: 40px;
+            border: 2px solid white;
+            border-radius: 3px;
+            margin-right: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: white;
+        }
+
+        .start-menu-header .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .user-avatar-icon {
+            background-color: white;
+            /* Optional: if you want a white background */
+            width: 38px;
+            height: 38px;
+            display: block;
+            margin-top: -10px;
+            margin-left: -5px;
+            background-image: url('xp-boot-logo.png');
+            background-size: contain;
+            background-position: center;
+        }
+
+        .start-menu-body {
+            display: flex;
+            flex-grow: 1;
+            height: calc(100% - 100px);
+        }
+
+        .start-menu-left {
+            width: 50%;
+            padding: 5px;
+            background: white;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .start-menu-right {
+            width: 50%;
+            background: #c3d9ff;
+            border-left: 1px solid #94bbf2;
+            padding: 5px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .start-menu-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 5px;
+            cursor: pointer;
+            font-size: 11px;
+            color: black;
+        }
+
+        .start-menu-item:hover {
+            background: #2f71cd;
+            color: white;
+        }
+
+        .start-menu-item .icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 10px;
+        }
+
+        .start-menu-item.bold {
+            font-weight: bold;
+        }
+
+        .start-menu-footer {
+            background: linear-gradient(to bottom, #245edb 0%, #3f8cf3 100%);
+            padding: 5px 10px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .start-menu-footer .btn {
+            display: flex;
+            align-items: center;
+            color: white;
+            font-size: 11px;
+            cursor: pointer;
+        }
+
+        .start-menu-footer .btn:hover {
+            text-decoration: underline;
+        }
+
+        /* Window Customizations */
+        .window {
+            position: absolute;
+            display: none;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+            min-width: 300px;
+        }
+
+        .title-bar {
+            cursor: default;
+            /* Changed from default to help indicate draggability, handled in JS */
+        }
+
+        .title-bar-text {
+            pointer-events: none;
+            /* Prevent text selection while dragging */
+            display: flex;
+            align-items: center;
+        }
+
+        .title-bar-icon {
+            width: 14px;
+            height: 14px;
+            margin-right: 5px;
+        }
+
+        .window-body {
+            margin: 0;
+            padding: 10px;
+            font-size: 12px;
+            background: #ece9d8;
+        }
+
+        /* Specific App Styles */
+        .notepad-body {
+            background: white;
+            padding: 0;
+            height: calc(100% - 2px);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .notepad-menu {
+            border-bottom: 1px solid #ccc;
+            background: #ece9d8;
+            padding: 2px 5px;
+            font-size: 11px;
+        }
+
+        .notepad-textarea {
+            width: 100%;
+            height: 300px;
+            border: none;
+            resize: none;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 13px;
+            padding: 5px;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        .sys-prop-body {
+            display: flex;
+            gap: 15px;
+        }
+
+        .sys-prop-icon {
+            width: 60px;
+            height: 60px;
+        }
+
+        .sys-prop-details h4 {
+            margin: 0 0 5px 0;
+            font-size: 12px;
+        }
+
+        .sys-prop-details p {
+            margin: 0 0 10px 0;
+            color: #333;
+        }
+
+        .sys-prop-details hr {
+            border: 0;
+            border-top: 1px solid #a0a0a0;
+            margin: 10px 0;
+        }
+
+        /* IE Browser UI */
+        .ie-toolbar-container {
+            background: #ece9d8;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .ie-menu-bar {
+            padding: 2px 5px;
+            font-size: 11px;
+            display: flex;
+            gap: 10px;
+            border-bottom: 1px solid #fff;
+            box-shadow: 0 1px 0 #aca899;
+        }
+
+        .ie-menu-bar span {
+            cursor: pointer;
+            padding: 1px 4px;
+        }
+
+        .ie-menu-bar span:hover {
+            background: #316ac5;
+            color: white;
+        }
+
+        .ie-standard-buttons {
+            display: flex;
+            align-items: center;
+            padding: 2px 5px;
+            gap: 2px;
+            border-bottom: 1px solid #fff;
+            box-shadow: 0 1px 0 #aca899;
+        }
+
+        .ie-btn {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 3px 5px;
+            border: 1px solid transparent;
+            cursor: pointer;
+            color: #000;
+            font-size: 11px;
+        }
+
+        .ie-btn:hover {
+            border: 1px solid #316ac5;
+            background: #c1d2ee;
+            border-radius: 3px;
+        }
+
+        .ie-separator {
+            width: 1px;
+            height: 22px;
+            background: #aca899;
+            border-right: 1px solid #fff;
+            margin: 0 4px;
+        }
+
+        .ie-address-bar {
+            display: flex;
+            align-items: center;
+            padding: 3px 5px;
+            font-size: 11px;
+            gap: 5px;
+            border-bottom: 1px solid #aca899;
+        }
+
+        .ie-address-input {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            background: white;
+            border: 1px solid #7f9db9;
+            padding: 2px 4px;
+            box-shadow: inset 1px 1px 2px #ddd;
+            cursor: text;
+        }
+
+        .toolbar-icon {
+            width: 16px;
+            height: 16px;
+            pointer-events: none;
+        }
+
+        .ie-content-area {
+            flex-grow: 1;
+            height: 350px;
+            background: white;
+            overflow-y: auto;
+            border: 1px inset #fff;
+        }
+
+        .ie-status-bar {
+            background: #ece9d8;
+            padding: 2px 10px;
+            font-size: 11px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #aca899;
+            color: #000;
+            height: 20px;
+        }
+
+        .ie-status-zone {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding-left: 10px;
+            border-left: 1px solid #aca899;
+            height: 100%;
+        }
+
+        /* Inside the Webpage (Y2K retro style) */
+        .web-page {
+            padding: 20px;
+            font-family: 'Times New Roman', Times, serif;
+            color: #000;
+            background: url('https://www.transparenttextures.com/patterns/cubes.png') #f0f8ff;
+            min-height: 100%;
+        }
+
+        .web-header {
+            text-align: center;
+            border-bottom: 3px double #000080;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+        }
+
+        .web-header h1 {
+            color: #000080;
+            margin: 0;
+            font-size: 32px;
+            letter-spacing: 2px;
+        }
+
+        .web-layout {
+            display: flex;
+            gap: 20px;
+        }
+
+        .web-nav {
+            width: 160px;
+            background: #e0eeee;
+            border: 2px inset #b0c4de;
+            padding: 10px;
+            font-size: 14px;
+            height: fit-content;
+        }
+
+        .web-nav ul {
+            list-style-type: square;
+            padding-left: 20px;
+            margin: 5px 0 0 0;
+        }
+
+        .web-nav li {
+            margin-bottom: 10px;
+        }
+
+        .web-nav a {
+            color: #0000ff;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .web-nav a:hover {
+            color: #ff0000;
+        }
+
+        .web-main {
+            flex-grow: 1;
+            font-size: 15px;
+            line-height: 1.4;
+            background: white;
+            border: 2px inset #ccc;
+            padding: 15px;
+        }
+
+        .web-main h2 {
+            color: #8b0000;
+            border-bottom: 1px dashed #8b0000;
+            padding-bottom: 4px;
+            font-size: 20px;
+            margin-top: 0;
+        }
+
+        .web-main ul {
+            margin-bottom: 25px;
+        }
+
+        .web-main li {
+            margin-bottom: 8px;
+        }
+
+        /* Game Styles */
+        .game-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .ms-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: #c0c0c0;
+            padding: 10px;
+            border: 2px solid;
+            border-top-color: #fff;
+            border-left-color: #fff;
+            border-bottom-color: #808080;
+            border-right-color: #808080;
+        }
+
+        .ms-header {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            padding: 4px;
+            border: 2px solid;
+            border-top-color: #808080;
+            border-left-color: #808080;
+            border-bottom-color: #fff;
+            border-right-color: #fff;
+            margin-bottom: 10px;
+            background: #c0c0c0;
+        }
+
+        .ms-score {
+            background: black;
+            color: red;
+            font-family: 'Courier New', monospace;
+            font-size: 20px;
+            font-weight: bold;
+            padding: 2px 5px;
+            border: 1px solid #808080;
+        }
+
+        .ms-face {
+            font-size: 20px;
+            cursor: pointer;
+            padding: 2px;
+            border: 2px solid;
+            border-top-color: #fff;
+            border-left-color: #fff;
+            border-bottom-color: #808080;
+            border-right-color: #808080;
+        }
+
+        .ms-face:active {
+            border-top-color: #808080;
+            border-left-color: #808080;
+            border-bottom-color: #fff;
+            border-right-color: #fff;
+        }
+
+        .ms-board {
+            display: inline-grid;
+            grid-template-columns: repeat(9, 20px);
+            border: 3px solid #808080;
+            border-top-color: #808080;
+            border-left-color: #808080;
+            border-bottom-color: #fff;
+            border-right-color: #fff;
+            background: #c0c0c0;
+        }
+
+        .ms-cell {
+            width: 20px;
+            height: 20px;
+            background: #c0c0c0;
+            border: 2px solid;
+            border-top-color: #fff;
+            border-left-color: #fff;
+            border-bottom-color: #808080;
+            border-right-color: #808080;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: default;
+            user-select: none;
+        }
+
+        .ms-cell.revealed {
+            border: 1px solid #808080;
+            border-right: 1px dotted #808080;
+            border-bottom: 1px dotted #808080;
+        }
+
+        .ms-cell[data-bombs="1"] {
+            color: blue;
+        }
+
+        .ms-cell[data-bombs="2"] {
+            color: green;
+        }
+
+        .ms-cell[data-bombs="3"] {
+            color: red;
+        }
+
+        .ms-cell[data-bombs="4"] {
+            color: darkblue;
+        }
+
+        .ms-cell[data-bombs="5"] {
+            color: darkred;
+        }
+
+        /* Network & Balloon Styles */
+        .xp-balloon {
+            position: fixed;
+            bottom: 35px;
+            right: 15px;
+            background-color: #ffffe1;
+            border: 1px solid #000;
+            border-radius: 5px;
+            padding: 10px 10px 10px 35px;
+            width: 230px;
+            box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            z-index: 10005;
+            display: none;
+            cursor: pointer;
+            color: black;
+        }
+
+        .xp-balloon::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            right: 75px;
+            border-width: 10px 10px 0 0;
+            border-style: solid;
+            border-color: #000 transparent transparent transparent;
+        }
+
+        .xp-balloon::before {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            right: 76px;
+            border-width: 8px 8px 0 0;
+            border-style: solid;
+            border-color: #ffffe1 transparent transparent transparent;
+            z-index: 1;
+        }
+
+        .xp-balloon-close {
+            position: absolute;
+            top: 2px;
+            right: 6px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #000;
+        }
+
+        .xp-balloon-title {
+            font-weight: bold;
+            font-size: 11px;
+            margin-bottom: 5px;
+        }
+
+        .xp-balloon-text {
+            font-size: 11px;
+        }
+
+        .xp-balloon-icon {
+            position: absolute;
+            left: 10px;
+            top: 10px;
+            width: 16px;
+            height: 16px;
+        }
+
+        .network-icon {
+            width: 80px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            cursor: pointer;
+            text-decoration: none;
+            color: black;
+            font-size: 11px;
+            padding: 5px;
+            border: 1px solid transparent;
+        }
+
+        .network-icon:hover {
+            background-color: rgba(49, 106, 197, 0.1);
+            border: 1px dotted #316ac5;
+        }
+
+        .network-icon img {
+            width: 32px;
+            height: 32px;
+            margin-bottom: 5px;
+        }
+
+        /* Boot Screen & Enhancements */
+        @keyframes boot-shine {
+            0% {
+                left: -30px;
+            }
+
+            100% {
+                left: 160px;
+            }
+        }
+
+        .fade-out {
+            animation: fadeOut 0.8s forwards;
+            pointer-events: none;
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                visibility: hidden;
+                z-index: -1;
+            }
+        }
+
+        /* Essential Preload Hidden Class */
+        .preload-images {
+            position: absolute;
+            width: 0;
+            height: 0;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .window {
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6), inset 1px 1px 1px rgba(255, 255, 255, 0.8) !important;
+            border-radius: 8px 8px 0 0 !important;
+        }
+
+        .taskbar {
+            box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        .start-menu {
+            box-shadow: 2px -2px 10px rgba(0, 0, 0, 0.5);
+            border-top-left-radius: 6px;
+            border-top-right-radius: 6px;
+        }
+
+        @media (max-width: 768px) {
+            .desktop-icon {
+                width: 60px;
+            }
+
+            .window {
+                width: 95% !important;
+                left: 2.5% !important;
+            }
+
+            .start-menu {
+                width: 100vw;
+                height: calc(100vh - 30px);
+                bottom: 30px;
+                border-radius: 0;
+            }
+
+            .start-menu-left,
+            .start-menu-right {
+                width: 50%;
+            }
+
+            #win-ie,
+            #win-doom,
+            #win-sudoku {
+                height: 80vh !important;
+                top: 5% !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Boot Screen -->
+    <div id="boot-screen"
+        style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: black; z-index: 999999; display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: wait;">
+        <img src="xp-boot-logo.png"
+            style="width: 300px; filter: drop-shadow(0 0 20px rgba(255,255,255,0.15)); margin-bottom: 60px;"
+            alt="Windows XP Logo">
+        <div
+            style="border: 2px solid #b3b3b3; width: 220px; height: 18px; border-radius: 8px; padding: 2px; position: relative; overflow: hidden; background: #000; box-sizing: border-box;">
+            <div id="boot-progress"
+                style="display: flex; height: 100%; width: 100%; position: absolute; top:0; left: -100px; animation: boot-shine 1.5s infinite linear;">
+                <div
+                    style="width: 8px; height: 10px; margin-right: 2px; background: linear-gradient(to right, #245edb, #00adef, #245edb); border-radius: 1px; margin-top: 1px;">
+                </div>
+                <div
+                    style="width: 8px; height: 10px; margin-right: 2px; background: linear-gradient(to right, #245edb, #00adef, #245edb); border-radius: 1px; margin-top: 1px;">
+                </div>
+                <div
+                    style="width: 8px; height: 10px; margin-right: 2px; background: linear-gradient(to right, #245edb, #00adef, #245edb); border-radius: 1px; margin-top: 1px;">
+                </div>
+                <div
+                    style="width: 8px; height: 10px; margin-right: 2px; background: linear-gradient(to right, #245edb, #00adef, #245edb); border-radius: 1px; margin-top: 1px;">
+                </div>
+            </div>
+        </div>
+        <div style="color: white; font-family: Tahoma, sans-serif; font-size: 14px; margin-top: 20px;">Starting
+            Windows...</div>
+    </div>
+
+    <!-- Hidden Preloader for Icons -->
+    <div class="preload-images">
+        <!-- Add URLs of heavy images here to ensure they load before boot disappears -->
+        <img src="https://raw.githubusercontent.com/ShizukuIchi/winXP/master/src/assets/windowsIcons/676(32x32).png"
+            alt="preload">
+        <img src="https://raw.githubusercontent.com/ShizukuIchi/winXP/master/src/assets/windowsIcons/327(32x32).png"
+            alt="preload">
+        <img src="https://raw.githubusercontent.com/ShizukuIchi/winXP/master/src/assets/windowsIcons/ie.png"
+            alt="preload">
+        <img src="https://raw.githubusercontent.com/ShizukuIchi/winXP/master/src/assets/windowsIcons/309(32x32).png"
+            alt="preload">
+        <img src="https://win98icons.alexmeub.com/icons/png/game_freecell-1.png" alt="preload">
+        <img src="https://raw.githubusercontent.com/ShizukuIchi/winXP/master/src/assets/windowsIcons/894(16x16).png"
+            alt="preload">
+        <img src="https://raw.githubusercontent.com/ShizukuIchi/winXP/master/src/assets/windowsIcons/ie.png"
+            alt="preload">
+    </div>
+
+    <!-- Desktop Environment -->
+    <div class="desktop" id="desktop">
+        <!-- Desktop Icons -->
+        <div class="desktop-icon"
+            onclick="openWindow('win-computer', 'System Properties', 'https://raw.githubusercontent.com/ShizukuIchi/winXP/master/src/assets/windowsIcons/676(32x32).png')">
+            <img class="icon-img"
+                src="https://raw.githubusercontent.com/ShizukuIchi/winXP/master/src/assets/windowsIcons/676(32x32).png"
+                alt="My Computer">
+            <span>My Computer</span>
+        </div>
+        <div class="desktop-icon"
+            onclick="openWindow('win-notepad', 'Experience.txt', 'https://raw.githubusercontent.com/ShizukuIchi/winXP/master/src/assets/windowsIcons/327(32x32).png')">
+            <img class="icon-img"
+                src="https://raw.githubusercontent.com/ShizukuIchi/winXP/master/src/assets/windowsIcons/327(32x32).png"
+                alt="Notepad">
+            <span>Experience.txt</span>
+        </div>
+        <div class="desktop-icon"
+            onclick="openWindow('win-ie', 'Tech Stack', 'https://raw.githubusercontent.com/ShizukuIchi/winXP/master/src/assets/windowsIcons/ie.png')">
+            <img class="icon-img"
+                src="https://raw.githubusercontent.com/ShizukuIchi/winXP/master/src/assets/windowsIcons/ie.png"
+                alt="Internet Explorer">
+            <span>Internet Explorer</span>
+        </div>
+        <div class="desktop-icon"
+            onclick="openWindow('win-minesweeper', 'Minesweeper', 'https://raw.githubusercontent.com/ShizukuIchi/winXP/master/src/assets/windowsIcons/309(32x32).png')">
+            <img class="icon-img"
+                src="https://raw.githubusercontent.com/ShizukuIchi/winXP/master/src/assets/windowsIcons/309(32x32).png"
+                alt="Minesweeper">
+            <span>Minesweeper</span>
+        </div>
+        <div class="desktop-icon"
+            onclick="openWindow('win-sudoku', 'Sudoku', 'https://win98icons.alexmeub.com/icons/png/game_freecell-1.png')">
+            <img class="icon-img" src="https://win98icons.alexmeub.com/icons/png/game_freecell-1.png" alt="Sudoku">
+            <span>Sudoku</span>
+        </div>
+        <div class="desktop-icon"
+            onclick="openWindow('win-doom', 'MS-DOS Prompt (Doom)', 'https://www.pngplay.com/wp-content/uploads/10/Doom-Logo-Background-PNG-Image.png')">
+            <img class="icon-img" src="https://www.pngplay.com/wp-content/uploads/10/Doom-Logo-Background-PNG-Image.png"
+                alt="Doom" style="object-fit: contain; width: 48px;">
+            <span>DOOM</span>
+        </div>
+
+        <!-- Extracted Network Places -->
+        <a class="desktop-icon" href="https://www.rityatra.in/" target="_blank" style="text-decoration:none;">
+            <img class="icon-img"
+                src="https://raw.githubusercontent.com/ShizukuIchi/winXP/master/src/assets/windowsIcons/894(16x16).png"
+                alt="RIT Yatra '26">
+            <span>RIT Yatra '26</span>
+        </a>
+        <a class="desktop-icon" href="https://rmchri.in/" target="_blank" style="text-decoration:none;">
+            <img class="icon-img"
+                src="https://raw.githubusercontent.com/ShizukuIchi/winXP/master/src/assets/windowsIcons/894(16x16).png"
+                alt="RMCHRI">
+            <span>RMCHRI</span>
+        </a>
+        <a class="desktop-icon" href="https://cake-house-ten.vercel.app/" target="_blank" style="text-decoration:none;">
+            <img class="icon-img"
+                src="https://raw.githubusercontent.com/ShizukuIchi/winXP/master/src/assets/windowsIcons/894(16x16).png"
+                alt="Cake House">
+            <span>Cake House</span>
+        </a>
+    </div>
+
+    <!-- Windows Container -->
+    <div id="windows-container">
+
+        <!-- My Computer / System Properties Window -->
+        <div class="window" id="win-computer" style="width: 400px; left: 10%; top: 10%;">
+            <div class="title-bar">
+                <div class="title-bar-text">
+                    <img src="https://raw.githubusercontent.com/ShizukuIchi/winXP/master/src/assets/windowsIcons/676(32x32).png"
+                        class="title-bar-icon" alt="">
+                    System Properties
+                </div>
+                <div class="title-bar-controls">
+                    <button aria-label="Minimize"></button>
+                    <button aria-label="Maximize"></button>
+                    <button aria-label="Close" onclick="closeWindow('win-computer')"></button>
+                </div>
+            </div>
+            <div class="window-body">
+                <menu role="tablist">
+                    <li role="tab" aria-selected="true"><a href="#tabs">General</a></li>
+                    <li role="tab"><a href="#tabs">Computer Name</a></li>
+                    <li role="tab"><a href="#tabs">Hardware</a></li>
+                    <li role="tab"><a href="#tabs">Advanced</a></li>
+                </menu>
+                <div class="window" role="tabpanel">
+                    <div class="window-body sys-prop-body">
+                        <img src="https://raw.githubusercontent.com/ShizukuIchi/winXP/master/src/assets/windowsIcons/676(32x32).png"
+                            class="sys-prop-icon" alt="Computer">
+                        <div class="sys-prop-details">
+                            <h4>System:</h4>
+                            <p>Microsoft Windows XP<br>Professional<br>Version 2002<br>Service Pack 3</p>
+                            <hr>
+                            <h4>Registered to:</h4>
+                            <p>Anto<br>55532-OEM-0011903-00100</p>
+                            <hr>
+                            <h4>Computer:</h4>
+                            <p>System Architect // AI & ML Engineer.<br>Executing CSBS protocols at Rajalakshmi
+                                Institute of Technology.<br>Genuine Intel(R) CPU<br>3.20 GHz, 16.0 GB of RAM</p>
+                        </div>
+                    </div>
+                </div>
+                <div style="text-align: right; margin-top: 10px;">
+                    <button onclick="closeWindow('win-computer')">OK</button>
+                    <button onclick="closeWindow('win-computer')">Cancel</button>
+                    <button>Apply</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notepad Window -->
+        <div class="window" id="win-notepad" style="width: 500px; left: 15%; top: 15%;">
+            <div class="title-bar">
+                <div class="title-bar-text">
+                    <img src="https://raw.githubusercontent.com/ShizukuIchi/winXP/master/src/assets/windowsIcons/327(32x32).png"
+                        class="title-bar-icon" alt="">
+                    Experience.txt - Notepad
+                </div>
+                <div class="title-bar-controls">
+                    <button aria-label="Minimize"></button>
+                    <button aria-label="Maximize"></button>
+                    <button aria-label="Close" onclick="closeWindow('win-notepad')"></button>
+                </div>
+            </div>
+            <div class="window-body notepad-body">
+                <div class="notepad-menu">
+                    <span style="margin-right: 10px;"><u>F</u>ile</span>
+                    <span style="margin-right: 10px;"><u>E</u>dit</span>
+                    <span style="margin-right: 10px;">F<u>o</u>rmat</span>
+                    <span style="margin-right: 10px;"><u>V</u>iew</span>
+                    <span><u>H</u>elp</span>
+                </div>
+                <textarea class="notepad-textarea" readonly>
+==================================================
+              PROFESSIONAL EXPERIENCE             
+==================================================
+
+> Qkrishi
+  Role: Front-End & AI Engineer Intern
+
+> Yatra '26
+  Role: Full-Stack Lead
+  Details: Built full ticketing infrastructure and 
+  integrated CCAvenue payment gateway.
+
+> Project SENTINEL (IIT-M Hackathon)
+  Role: AI Engineer
+  Details: Developed AI solutions for Safe & 
+  Sustainable Mobility.
+
+> CropSense AI (Smart India Hackathon)
+  Role: AI Developer
+  Details: Created agricultural monitoring AI.
+
+==================================================
+EOF</textarea>
+            </div>
+        </div>
+
+        <!-- Internet Explorer Window -->
+        <div class="window" id="win-ie" style="width: 700px; left: 20%; top: 5%;">
+            <div class="title-bar">
+                <div class="title-bar-text">
+                    <img src="https://raw.githubusercontent.com/ShizukuIchi/winXP/master/src/assets/windowsIcons/ie.png"
+                        class="title-bar-icon" alt="">
+                    Tech Stack & Current Dev - Microsoft Internet Explorer
+                </div>
+                <div class="title-bar-controls">
+                    <button aria-label="Minimize"></button>
+                    <button aria-label="Maximize"></button>
+                    <button aria-label="Close" onclick="closeWindow('win-ie')"></button>
+                </div>
+            </div>
+            <div class="window-body" style="padding: 0; display: flex; flex-direction: column;">
+                <div class="ie-toolbar-container">
+                    <div class="ie-menu-bar">
+                        <span><u>F</u>ile</span>
+                        <span><u>E</u>dit</span>
+                        <span><u>V</u>iew</span>
+                        <span>F<u>a</u>vorites</span>
+                        <span><u>T</u>ools</span>
+                        <span><u>H</u>elp</span>
+                    </div>
+                    <div class="ie-standard-buttons">
+                        <div class="ie-btn"><img src="https://win98icons.alexmeub.com/icons/png/back-0.png"
+                                class="toolbar-icon" alt=""> Back</div>
+                        <div class="ie-btn"><img src="https://win98icons.alexmeub.com/icons/png/forward-0.png"
+                                class="toolbar-icon" alt=""></div>
+                        <div class="ie-btn"><img src="https://win98icons.alexmeub.com/icons/png/stop-0.png"
+                                class="toolbar-icon" alt=""></div>
+                        <div class="ie-btn"><img src="https://win98icons.alexmeub.com/icons/png/refresh-0.png"
+                                class="toolbar-icon" alt=""></div>
+                        <div class="ie-btn"><img src="https://win98icons.alexmeub.com/icons/png/home-0.png"
+                                class="toolbar-icon" alt=""></div>
+                        <div class="ie-separator"></div>
+                        <div class="ie-btn"><img src="https://win98icons.alexmeub.com/icons/png/search_web-0.png"
+                                class="toolbar-icon" alt=""> Search</div>
+                        <div class="ie-btn"><img src="https://win98icons.alexmeub.com/icons/png/favorites-0.png"
+                                class="toolbar-icon" alt=""> Favorites</div>
+                        <div class="ie-separator"></div>
+                        <div class="ie-btn"><img src="https://win98icons.alexmeub.com/icons/png/print-0.png"
+                                class="toolbar-icon" alt=""></div>
+                    </div>
+                    <div class="ie-address-bar">
+                        <span style="color: #aca899; margin-right: 5px;">Address</span>
+                        <div class="ie-address-input">
+                            <img src="https://raw.githubusercontent.com/ShizukuIchi/winXP/master/src/assets/windowsIcons/ie.png"
+                                style="width:14px; height:14px; margin-right:5px;" alt="">
+                            <span
+                                style="font-family: Arial; font-size: 12px; flex-grow: 1;">http://anto.local/arsenal.html</span>
+                            <img src="https://raw.githubusercontent.com/ShizukuIchi/winXP/master/src/assets/windowsIcons/dropdown.png"
+                                style="width:14px; height:14px;" alt="">
+                        </div>
+                        <div class="ie-btn" style="margin-left: 5px;"><img
+                                src="https://win98icons.alexmeub.com/icons/png/gears-0.png" class="toolbar-icon" alt="">
+                            Go</div>
+                    </div>
+                </div>
+                <div class="ie-content-area">
+                    <div class="web-page">
+                        <div class="web-header">
+                            <h1>[ ANTO'S ARSENAL ]</h1>
+                            <marquee scrollamount="4"
+                                style="font-family: 'Courier New', monospace; font-size: 12px; color: #000080; background: #e0eeee; border: 1px solid #b0c4de; padding: 2px; margin-top: 10px;">
+                                Welcome to my technical repository! Best viewed in Internet Explorer 6.0 at 800x600
+                                resolution.
+                            </marquee>
+                        </div>
+                        <div class="web-layout">
+                            <div class="web-nav">
+                                <b>Navigation</b>
+                                <ul>
+                                    <li><a>Home</a></li>
+                                    <li><a>Web Tech</a></li>
+                                    <li><a>Core AI</a></li>
+                                    <li><a>Robotics</a></li>
+                                    <li><a>Webring</a></li>
+                                    <li><a>Guestbook</a></li>
+                                </ul>
+                                <div style="text-align: center; margin-top: 30px;">
+                                    <img src="https://raw.githubusercontent.com/ShizukuIchi/winXP/master/src/assets/windowsIcons/ie.png"
+                                        style="width: 32px;" alt=""><br>
+                                    <small style="color:#555;">Powered by IE6</small>
+                                </div>
+                            </div>
+                            <div class="web-main">
+                                <h2>🕸️ Web Technologies</h2>
+                                <ul>
+                                    <li><b>React</b> - Component-driven UI.</li>
+                                    <li><b>Vite</b> - Next-generation frontend tooling.</li>
+                                    <li><b>Tailwind CSS</b> - Utility-first styling framework.</li>
+                                </ul>
+
+                                <h2>🧠 Core AI & Logic</h2>
+                                <ul>
+                                    <li><b>Python</b> - Primary scripting & modeling language.</li>
+                                    <li><b>Machine Learning</b> - Predictive models & data pipelines.</li>
+                                    <li><b>Data Structures & Algorithms</b> - Optimized problem solving.</li>
+                                    <li><b>Quantum Algorithms</b> - QAOA, VQE research.</li>
+                                </ul>
+
+                                <h2>⚙️ Hardware & Robotics</h2>
+                                <ul>
+                                    <li><b>ESP32 Autonomous Robotics</b> - Embedded systems.</li>
+                                    <li><b>Line Followers</b> - Sensor integration and PID control.</li>
+                                </ul>
+
+                                <h2>🚧 Currently Building</h2>
+                                <ul>
+                                    <li><b>2D Physics Game Engine</b> - Built from scratch in Python, heavily inspired
+                                        by the atmospheric physics of <i>Limbo</i>.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ie-status-bar">
+                    <div style="display: flex; align-items: center; gap: 5px;">
+                        <img src="https://win98icons.alexmeub.com/icons/png/document-0.png"
+                            style="width: 14px; height: 14px;" alt=""> Done
+                    </div>
+                    <div class="ie-status-zone">
+                        <img src="https://win98icons.alexmeub.com/icons/png/world-0.png"
+                            style="width: 14px; height: 14px;" alt=""> Internet
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Minesweeper Window -->
+        <div class="window" id="win-minesweeper" style="width: 250px; left: 30%; top: 20%;">
+            <div class="title-bar">
+                <div class="title-bar-text">
+                    <img src="https://raw.githubusercontent.com/ShizukuIchi/winXP/master/src/assets/windowsIcons/309(32x32).png"
+                        class="title-bar-icon" alt="">
+                    Minesweeper
+                </div>
+                <div class="title-bar-controls">
+                    <button aria-label="Minimize"></button>
+                    <button aria-label="Maximize"></button>
+                    <button aria-label="Close" onclick="closeWindow('win-minesweeper')"></button>
+                </div>
+            </div>
+            <div class="window-body" style="padding: 5px; background: #c0c0c0;">
+                <div class="notepad-menu" style="border-bottom:none; background:#c0c0c0;">
+                    <span style="margin-right: 10px;"><u>G</u>ame</span>
+                    <span><u>H</u>elp</span>
+                </div>
+                <div class="ms-container">
+                    <div class="ms-header">
+                        <div class="ms-score" id="ms-mine-count">010</div>
+                        <div class="ms-face" id="ms-face" onclick="initMinesweeper()">🙂</div>
+                        <div class="ms-score" id="ms-timer">000</div>
+                    </div>
+                    <div class="ms-board" id="ms-board" oncontextmenu="return false;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sudoku Window -->
+        <div class="window" id="win-sudoku" style="width: 500px; height: 450px; left: 35%; top: 15%;">
+            <div class="title-bar">
+                <div class="title-bar-text">
+                    <img src="https://win98icons.alexmeub.com/icons/png/game_freecell-1.png" class="title-bar-icon"
+                        alt="">
+                    Web Sudoku
+                </div>
+                <div class="title-bar-controls">
+                    <button aria-label="Minimize"></button>
+                    <button aria-label="Maximize"></button>
+                    <button aria-label="Close" onclick="closeWindow('win-sudoku')"></button>
+                </div>
+            </div>
+            <div class="window-body" style="padding: 0; height: calc(100% - 30px);">
+                <iframe src="https://websudoku.com/?level=1" class="game-iframe"></iframe>
+            </div>
+        </div>
+
+        <!-- Doom Window -->
+        <div class="window" id="win-doom" style="width: 640px; height: 440px; left: 15%; top: 25%;">
+            <div class="title-bar">
+                <div class="title-bar-text">
+                    <img src="https://www.pngplay.com/wp-content/uploads/10/Doom-Logo-Background-PNG-Image.png"
+                        class="title-bar-icon" alt="" style="object-fit: contain; width: 24px;">
+                    MS-DOS Prompt - DOOM
+                </div>
+                <div class="title-bar-controls">
+                    <button aria-label="Minimize"></button>
+                    <button aria-label="Maximize"></button>
+                    <button aria-label="Close" onclick="closeWindow('win-doom')"></button>
+                </div>
+            </div>
+            <div class="window-body" style="padding: 0; height: calc(100% - 30px); background: #000;">
+                <iframe src="https://silentspacemarine.com/" class="game-iframe"></iframe>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Start Menu -->
+    <div class="start-menu" id="start-menu">
+        <div class="start-menu-header">
+            <div class="avatar">
+                <img src="https://www.freepnglogos.com/uploads/3d-batman-vector-logo-png-28.png" alt="Anto"
+                    style="width:100%; height:100%; object-fit:cover; border-radius:3px;">
+            </div>
+            Anto - Administrator
+        </div>
+        <div class="start-menu-body">
+            <div class="start-menu-left">
+                <div class="start-menu-item bold"
+                    onclick="openWindow('win-ie', 'Tech Stack', 'https://raw.githubusercontent.com/ShizukuIchi/winXP/master/src/assets/windowsIcons/ie.png'); toggleStartMenu();">
+                    <img class="icon"
+                        src="https://raw.githubusercontent.com/ShizukuIchi/winXP/master/src/assets/windowsIcons/ie.png"
+                        alt=""> Internet
+                    Explorer
+                </div>
+                <div class="start-menu-item"
+                    onclick="openWindow('win-notepad', 'Experience.txt', 'https://raw.githubusercontent.com/ShizukuIchi/winXP/master/src/assets/windowsIcons/327(32x32).png'); toggleStartMenu();">
+                    <img class="icon"
+                        src="https://raw.githubusercontent.com/ShizukuIchi/winXP/master/src/assets/windowsIcons/327(32x32).png"
+                        alt=""> Notepad
+                </div>
+                <div style="border-top: 1px solid #d3e5fa; margin: 5px 0;"></div>
+                <div class="start-menu-item"
+                    onclick="openWindow('win-minesweeper', 'Minesweeper', 'https://raw.githubusercontent.com/ShizukuIchi/winXP/master/src/assets/windowsIcons/309(32x32).png'); toggleStartMenu();">
+                    <img class="icon"
+                        src="https://raw.githubusercontent.com/ShizukuIchi/winXP/master/src/assets/windowsIcons/309(32x32).png"
+                        alt="">
+                    Minesweeper
+                </div>
+                <div class="start-menu-item"
+                    onclick="openWindow('win-sudoku', 'Sudoku', 'https://win98icons.alexmeub.com/icons/png/game_freecell-1.png'); toggleStartMenu();">
+                    <img class="icon" src="https://win98icons.alexmeub.com/icons/png/game_freecell-1.png" alt=""> Sudoku
+                </div>
+                <div class="start-menu-item"
+                    onclick="openWindow('win-doom', 'MS-DOS Prompt (Doom)', 'https://www.pngplay.com/wp-content/uploads/10/Doom-Logo-Background-PNG-Image.png'); toggleStartMenu();">
+                    <img class="icon"
+                        src="https://www.pngplay.com/wp-content/uploads/10/Doom-Logo-Background-PNG-Image.png" alt=""
+                        style="object-fit: contain; width: 36px;"> DOOM
+                </div>
+                <div style="border-top: 1px solid #d3e5fa; margin: 5px 0;"></div>
+                <div class="start-menu-item">
+                    <img class="icon"
+                        src="https://raw.githubusercontent.com/ShizukuIchi/winXP/master/src/assets/windowsIcons/318(16x16).png"
+                        alt="">
+                    Projects
+                </div>
+                <div class="start-menu-item">
+                    <img class="icon"
+                        src="https://raw.githubusercontent.com/ShizukuIchi/winXP/master/src/assets/windowsIcons/227(16x16).png"
+                        alt=""> Tech
+                    Stack
+                </div>
+                <div style="margin-top: auto; border-top: 1px solid #d3e5fa; padding-top: 5px;">
+                    <div class="start-menu-item bold">
+                        <img class="icon"
+                            src="https://raw.githubusercontent.com/ShizukuIchi/winXP/master/src/assets/windowsIcons/all-programs.ico"
+                            alt=""> All Programs
+                    </div>
+                </div>
+            </div>
+            <div class="start-menu-right">
+                <div class="start-menu-item bold"
+                    onclick="openWindow('win-computer', 'System Properties', 'https://raw.githubusercontent.com/ShizukuIchi/winXP/master/src/assets/windowsIcons/676(32x32).png'); toggleStartMenu();">
+                    <img class="icon"
+                        src="https://raw.githubusercontent.com/ShizukuIchi/winXP/master/src/assets/windowsIcons/676(32x32).png"
+                        alt=""> My
+                    Computer
+                </div>
+                <div class="start-menu-item bold">
+                    <img class="icon"
+                        src="https://raw.githubusercontent.com/ShizukuIchi/winXP/master/src/assets/windowsIcons/318(16x16).png"
+                        alt=""> My
+                    Documents
+                </div>
+                <div class="start-menu-item bold">
+                    <img class="icon"
+                        src="https://raw.githubusercontent.com/ShizukuIchi/winXP/master/src/assets/windowsIcons/147(32x32).png"
+                        alt=""> My
+                    Pictures
+                </div>
+                <div style="border-top: 1px solid #94bbf2; margin: 5px 0;"></div>
+                <div class="start-menu-item">
+                    <img class="icon"
+                        src="https://raw.githubusercontent.com/ShizukuIchi/winXP/master/src/assets/windowsIcons/227(16x16).png"
+                        alt="">
+                    Control Panel
+                </div>
+                <div class="start-menu-item">
+                    <img class="icon"
+                        src="https://raw.githubusercontent.com/ShizukuIchi/winXP/master/src/assets/windowsIcons/128(16x16).png"
+                        alt=""> Printers and
+                    Faxes
+                </div>
+                <div style="border-top: 1px solid #94bbf2; margin: 5px 0;"></div>
+                <div class="start-menu-item">
+                    <img class="icon"
+                        src="https://raw.githubusercontent.com/ShizukuIchi/winXP/master/src/assets/windowsIcons/300(16x16).png"
+                        alt=""> Help
+                    and Support
+                </div>
+                <div class="start-menu-item">
+                    <img class="icon"
+                        src="https://raw.githubusercontent.com/ShizukuIchi/winXP/master/src/assets/windowsIcons/890(16x16).png"
+                        alt=""> Search
+                </div>
+                <div class="start-menu-item">
+                    <img class="icon"
+                        src="https://raw.githubusercontent.com/ShizukuIchi/winXP/master/src/assets/windowsIcons/234(16x16).png"
+                        alt="">
+                    Run...
+                </div>
+            </div>
+        </div>
+        <div class="start-menu-footer">
+            <div class="btn">
+                <img src="https://win98icons.alexmeub.com/icons/png/key-0.png"
+                    style="width: 20px; height: 20px; margin-right: 5px;" alt=""> Log Off
+            </div>
+            <div class="btn">
+                <img src="https://win98icons.alexmeub.com/icons/png/shut_down_normal-2.png"
+                    style="width: 20px; height: 20px; margin-right: 5px;" alt=""> Turn Off Computer
+            </div>
+        </div>
+    </div>
+
+    <!-- Taskbar -->
+    <div class="taskbar">
+        <div class="taskbar-left">
+            <button class="start-btn" id="start-btn" onclick="toggleStartMenu()">start</button>
+            <div class="taskbar-items" id="taskbar-items">
+                <!-- Taskbar items injected via JS -->
+            </div>
+        </div>
+        <div class="system-tray">
+            <img src="https://raw.githubusercontent.com/ShizukuIchi/winXP/master/src/assets/windowsIcons/894(16x16).png"
+                id="tray-network" style="width: 16px; height: 16px; margin-right: 5px; cursor: pointer;" alt="Network"
+                title="Network Connections">
+            <img src="https://raw.githubusercontent.com/ShizukuIchi/winXP/master/src/assets/windowsIcons/74(16x16).png"
+                style="width: 14px; height: 14px; margin-right: 5px;" alt="Security">
+            <span id="clock">12:00 AM</span>
+        </div>
+    </div>
+
+    <!-- XP Balloon -->
+    <div class="xp-balloon" id="network-balloon" onclick="this.style.display='none';">
+        <div class="xp-balloon-close" onclick="event.stopPropagation(); this.parentElement.style.display='none';">×
+        </div>
+        <img src="https://raw.githubusercontent.com/ShizukuIchi/winXP/master/src/assets/windowsIcons/300(16x16).png"
+            class="xp-balloon-icon" alt="">
+        <div class="xp-balloon-title">New Web Projects Detected</div>
+        <div class="xp-balloon-text">A network connection to active deployments was found on the desktop. click their
+            icons to explore.</div>
+    </div>
+
+    <!-- Vanilla JS Logic -->
+    <script>
+        function simulateBoot() {
+            let progress = 0;
+            const bootScreen = document.getElementById('boot-screen');
+            if (!bootScreen) return;
+
+            // Basic delay then remove for a clean boot look once images are loaded
+            // Alternatively, tie it to 'load' alone, but minimum visual time looks nicer
+            setTimeout(() => {
+                bootScreen.classList.add('fade-out');
+                const audio = new Audio('https://www.myinstants.com/media/sounds/windows-xp-startup.mp3');
+                audio.volume = 0.5;
+                audio.play().catch(e => console.log('Audio autoplay prevented'));
+                setTimeout(() => {
+                    bootScreen.style.display = 'none';
+                }, 1000);
+            }, 2500); // 2.5s simulated boot time
+        }
+        window.addEventListener('load', simulateBoot);
+
+        // --- System Clock ---
+        function updateClock() {
+            const now = new Date();
+            let hours = now.getHours();
+            let minutes = now.getMinutes();
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12;
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            document.getElementById('clock').innerText = hours + ':' + minutes + ' ' + ampm;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // --- State Management ---
+        let zIndexCounter = 100;
+        const openWindowsMap = new Map(); // id -> { name, element, taskbarItem }
+
+        // --- Start Menu Logic ---
+        const startMenu = document.getElementById('start-menu');
+        const startBtn = document.getElementById('start-btn');
+
+        function toggleStartMenu() {
+            if (startMenu.style.display === 'flex') {
+                startMenu.style.display = 'none';
+                startBtn.style.boxShadow = "inset 1px 1px 2px rgba(255,255,255,0.7), 2px 0px 3px rgba(0,0,0,0.5)";
+            } else {
+                startMenu.style.display = 'flex';
+                startBtn.style.boxShadow = "inset 2px 2px 5px rgba(0,0,0,0.5)";
+                bringStartMenuToFront();
+            }
+        }
+
+        function bringStartMenuToFront() {
+            zIndexCounter++;
+            startMenu.style.zIndex = zIndexCounter;
+        }
+
+        // Close start menu when clicking outside
+        document.addEventListener('mousedown', (e) => {
+            if (!startMenu.contains(e.target) && !startBtn.contains(e.target)) {
+                startMenu.style.display = 'none';
+                startBtn.style.boxShadow = "inset 1px 1px 2px rgba(255,255,255,0.7), 2px 0px 3px rgba(0,0,0,0.5)";
+            }
+        });
+
+        // --- Window & Taskbar Logic ---
+        const maximizedState = new Map();
+
+        function minimizeWindow(id) {
+            const winData = openWindowsMap.get(id);
+            if (winData) {
+                winData.element.style.display = 'none';
+                winData.taskbarItem.classList.remove('active');
+            }
+            if (window.event) window.event.stopPropagation();
+
+            // Focus next highest window if any
+            let highestZ = 0;
+            let highestId = null;
+            openWindowsMap.forEach((data, windowId) => {
+                if (data.element.style.display !== 'none' && data.element.style.zIndex > highestZ) {
+                    highestZ = data.element.style.zIndex;
+                    highestId = windowId;
+                }
+            });
+            if (highestId) updateTaskbarActive(highestId);
+        }
+
+        function maximizeWindow(id) {
+            const winElement = document.getElementById(id);
+            if (!winElement) return;
+            if (window.event) window.event.stopPropagation();
+            bringToFront(winElement);
+
+            // Add transition for smoother animation
+            winElement.style.transition = 'all 0.2s ease-in-out';
+            setTimeout(() => {
+                winElement.style.transition = ''; // Remove after animation so dragging works
+            }, 250);
+
+            if (maximizedState.has(id)) {
+                const state = maximizedState.get(id);
+                winElement.style.left = state.left;
+                winElement.style.top = state.top;
+                winElement.style.width = state.width;
+                winElement.style.height = state.height;
+                maximizedState.delete(id);
+                winElement.classList.remove('maximized');
+            } else {
+                maximizedState.set(id, {
+                    left: winElement.style.left || '',
+                    top: winElement.style.top || '',
+                    width: winElement.style.width || '',
+                    height: winElement.style.height || ''
+                });
+                winElement.style.left = '0px';
+                winElement.style.top = '0px';
+                winElement.style.width = '100%';
+                winElement.style.height = 'calc(100% - 30px)';
+                winElement.classList.add('maximized');
+            }
+        }
+
+        function openWindow(id, title, iconUrl) {
+            const winElement = document.getElementById(id);
+            if (!winElement) return;
+
+            // If already open, just bring to front
+            if (openWindowsMap.has(id)) {
+                winElement.style.display = 'block'; // ensure it's not hidden
+                bringToFront(winElement);
+                updateTaskbarActive(id);
+                return;
+            }
+
+            // Show window
+            winElement.style.display = 'block';
+
+            // Create taskbar item
+            const taskbarContainer = document.getElementById('taskbar-items');
+            const tbItem = document.createElement('div');
+            tbItem.className = 'taskbar-item';
+            tbItem.innerHTML = `<img src="${iconUrl}" class="icon" alt=""> ${title}`;
+            tbItem.onclick = () => {
+                if (winElement.style.display === 'none') {
+                    winElement.style.display = 'block';
+                    bringToFront(winElement);
+                    updateTaskbarActive(id);
+                } else if (winElement.style.zIndex == zIndexCounter) {
+                    // It's the active window, minimize it
+                    winElement.style.display = 'none';
+                    tbItem.classList.remove('active');
+                } else {
+                    // It's open but behind, bring to front
+                    bringToFront(winElement);
+                    updateTaskbarActive(id);
+                }
+            };
+            taskbarContainer.appendChild(tbItem);
+
+            // Save to map
+            openWindowsMap.set(id, {
+                name: title,
+                element: winElement,
+                taskbarItem: tbItem
+            });
+
+            bringToFront(winElement);
+            updateTaskbarActive(id);
+        }
+
+        function closeWindow(id) {
+            const winData = openWindowsMap.get(id);
+            if (winData) {
+                // Hide window
+                winData.element.style.display = 'none';
+                // Remove taskbar item
+                winData.taskbarItem.remove();
+                // Remove from map
+                openWindowsMap.delete(id);
+            }
+
+            // Focus next highest window if any
+            let highestZ = 0;
+            let highestId = null;
+            openWindowsMap.forEach((data, windowId) => {
+                if (data.element.style.display !== 'none' && data.element.style.zIndex > highestZ) {
+                    highestZ = data.element.style.zIndex;
+                    highestId = windowId;
+                }
+            });
+            if (highestId) updateTaskbarActive(highestId);
+        }
+
+        function bringToFront(winElement) {
+            zIndexCounter++;
+            winElement.style.zIndex = zIndexCounter;
+
+            // Update taskbar active state based on window id
+            updateTaskbarActive(winElement.id);
+        }
+
+        function updateTaskbarActive(activeId) {
+            openWindowsMap.forEach((data, id) => {
+                if (id === activeId && data.element.style.display !== 'none') {
+                    data.taskbarItem.classList.add('active');
+                } else {
+                    data.taskbarItem.classList.remove('active');
+                }
+            });
+        }
+
+        // --- Draggable Windows Logic ---
+        document.querySelectorAll('.window').forEach(win => {
+            const titleBar = win.querySelector('.title-bar');
+            if (!titleBar) return;
+
+            let isDragging = false;
+            let startX, startY, initialLeft, initialTop;
+
+            // Click anywhere on window brings it to front
+            win.addEventListener('mousedown', () => {
+                bringToFront(win);
+            });
+
+            titleBar.addEventListener('mousedown', (e) => {
+                // Don't drag if clicking buttons
+                if (e.target.tagName === 'BUTTON' || e.target.closest('.title-bar-controls')) return;
+
+                // Don't drag if maximized
+                if (win.classList.contains('maximized')) {
+                    // Optionally logic can go here to restore it, and lock its new position to the mouse, but we skip it for simplicity
+                    return;
+                }
+
+                isDragging = true;
+                bringToFront(win);
+
+                startX = e.clientX;
+                startY = e.clientY;
+
+                // Get computed styles for precise calculation
+                const rect = win.getBoundingClientRect();
+                initialLeft = rect.left;
+                initialTop = rect.top;
+
+                // Disable transitions during drag for smoothness
+                win.style.transition = 'none';
+
+                document.addEventListener('mousemove', onMouseMove);
+                document.addEventListener('mouseup', onMouseUp);
+            });
+
+            function onMouseMove(e) {
+                if (!isDragging) return;
+
+                if (maximizedState.has(win.id)) {
+                    // Restore from maximized before drag
+                    const state = maximizedState.get(win.id);
+                    win.style.width = state.width;
+                    win.style.height = state.height;
+                    maximizedState.delete(win.id);
+                    const rect = win.getBoundingClientRect();
+                    initialLeft = rect.left;
+                    initialTop = rect.top;
+                    startX = e.clientX;
+                    startY = e.clientY;
+                    return;
+                }
+
+                const dx = e.clientX - startX;
+                const dy = e.clientY - startY;
+
+                let newLeft = initialLeft + dx;
+                let newTop = initialTop + dy;
+
+                if (newTop < 0) newTop = 0;
+                const rightBoundary = window.innerWidth - 50;
+                if (newLeft > rightBoundary) newLeft = rightBoundary;
+                if (newLeft + win.offsetWidth < 50) newLeft = 50 - win.offsetWidth;
+                const bottomBoundary = window.innerHeight - 30 - 30;
+                if (newTop > bottomBoundary) newTop = bottomBoundary;
+
+                win.style.left = `${newLeft}px`;
+                win.style.top = `${newTop}px`;
+            }
+
+            function onMouseUp() {
+                isDragging = false;
+                document.removeEventListener('mousemove', onMouseMove);
+                document.removeEventListener('mouseup', onMouseUp);
+            }
+        });
+
+        // --- Minesweeper Logic ---
+        let msGrid = [];
+        let msMines = [];
+        const msRows = 9, msCols = 9, msMineCount = 10;
+        let msGameOver = false, msFlags = 0;
+
+        let msMinesPlaced = false;
+
+        function initMinesweeper() {
+            const board = document.getElementById('ms-board');
+            if (!board) return;
+            board.innerHTML = '';
+            msGrid = [];
+            msMines = [];
+            msGameOver = false;
+            msFlags = 0;
+            msMinesPlaced = false;
+            document.getElementById('ms-face').innerText = '🙂';
+            document.getElementById('ms-mine-count').innerText = msMineCount.toString().padStart(3, '0');
+
+            for (let r = 0; r < msRows; r++) {
+                msGrid[r] = [];
+                for (let c = 0; c < msCols; c++) {
+                    let cell = document.createElement('div');
+                    cell.className = 'ms-cell';
+                    cell.dataset.r = r;
+                    cell.dataset.c = c;
+                    cell.addEventListener('mousedown', msClick);
+                    cell.oncontextmenu = (e) => e.preventDefault();
+                    board.appendChild(cell);
+                    msGrid[r][c] = cell;
+                }
+            }
+        }
+
+        function placeMines(firstR, firstC) {
+            while (msMines.length < msMineCount) {
+                let r = Math.floor(Math.random() * msRows);
+                let c = Math.floor(Math.random() * msCols);
+                if (Math.abs(r - firstR) <= 1 && Math.abs(c - firstC) <= 1) continue;
+
+                let id = `${r}-${c}`;
+                if (!msMines.includes(id)) msMines.push(id);
+            }
+        }
+
+        function msClick(e) {
+            if (msGameOver) return;
+            let r = parseInt(e.target.dataset.r);
+            let c = parseInt(e.target.dataset.c);
+
+            if (e.button === 2) {
+                if (!e.target.classList.contains('revealed')) {
+                    e.target.classList.toggle('flagged');
+                    if (e.target.classList.contains('flagged')) {
+                        e.target.innerText = '🚩';
+                        msFlags++;
+                    } else {
+                        e.target.innerText = '';
+                        msFlags--;
+                    }
+                    document.getElementById('ms-mine-count').innerText = Math.max(0, msMineCount - msFlags).toString().padStart(3, '0');
+                }
+                return;
+            }
+
+            if (e.target.classList.contains('flagged')) return;
+
+            if (!msMinesPlaced && e.button !== 2) {
+                placeMines(r, c);
+                msMinesPlaced = true;
+            }
+
+            let id = `${r}-${c}`;
+            if (msMines.includes(id)) {
+                e.target.style.background = 'red';
+                e.target.innerText = '💣';
+                msGameOver = true;
+                document.getElementById('ms-face').innerText = '😵';
+                revealAllMines();
+            } else {
+                revealCell(r, c);
+                checkWin();
+            }
+        }
+
+        function revealCell(r, c) {
+            if (r < 0 || r >= msRows || c < 0 || c >= msCols) return;
+            let cell = msGrid[r][c];
+            if (cell.classList.contains('revealed') || cell.classList.contains('flagged')) return;
+
+            cell.classList.add('revealed');
+
+            let bombs = 0;
+            for (let i = -1; i <= 1; i++) {
+                for (let j = -1; j <= 1; j++) {
+                    if (msMines.includes(`${r + i}-${c + j}`)) bombs++;
+                }
+            }
+
+            if (bombs > 0) {
+                cell.innerText = bombs;
+                cell.dataset.bombs = bombs;
+            } else {
+                for (let i = -1; i <= 1; i++) {
+                    for (let j = -1; j <= 1; j++) {
+                        revealCell(r + i, c + j);
+                    }
+                }
+            }
+        }
+
+        function revealAllMines() {
+            msMines.forEach(id => {
+                let [r, c] = id.split('-');
+                let cell = msGrid[r][c];
+                if (!cell.classList.contains('flagged') && cell.innerText !== '💣') {
+                    cell.innerText = '💣';
+                }
+            });
+        }
+
+        function checkWin() {
+            let revealedCount = document.querySelectorAll('.ms-cell.revealed').length;
+            if (revealedCount === msRows * msCols - msMineCount) {
+                msGameOver = true;
+                document.getElementById('ms-face').innerText = '😎';
+                document.getElementById('ms-mine-count').innerText = '000';
+            }
+        }
+
+        // Initialize minesweeper on load
+        initMinesweeper();
+
+        // --- System Tray Balloon Logic ---
+        setTimeout(() => {
+            const balloon = document.getElementById('network-balloon');
+            if (balloon) {
+                balloon.style.display = 'block';
+                // Auto hide after 12 seconds
+                setTimeout(() => {
+                    balloon.style.display = 'none';
+                }, 12000);
+            }
+        }, 3000);
+
+    </script>
+</body>
+
+</html>
