@@ -1446,21 +1446,35 @@ EOF</textarea>
     <!-- Vanilla JS Logic -->
     <script>
         function simulateBoot() {
-            let progress = 0;
             const bootScreen = document.getElementById('boot-screen');
             if (!bootScreen) return;
 
-            // Basic delay then remove for a clean boot look once images are loaded
-            // Alternatively, tie it to 'load' alone, but minimum visual time looks nicer
+            // After 2.5s of loading animation, show "Click to start"
             setTimeout(() => {
-                bootScreen.classList.add('fade-out');
-                const audio = new Audio('https://www.myinstants.com/media/sounds/windows-xp-startup.mp3');
-                audio.volume = 0.5;
-                audio.play().catch(e => console.log('Audio autoplay prevented'));
-                setTimeout(() => {
-                    bootScreen.style.display = 'none';
-                }, 1000);
-            }, 2500); // 2.5s simulated boot time
+                // Hide progress bar and "Starting Windows..." text
+                const progressBar = bootScreen.querySelector('div[style*="border: 2px solid"]');
+                const startingText = bootScreen.querySelector('div[style*="color: white"]');
+                if (progressBar) progressBar.style.display = 'none';
+                if (startingText) startingText.innerHTML = '<span style="cursor:pointer; animation: blink 1s infinite;">Click anywhere to start...</span>';
+
+                // Add blink animation
+                const style = document.createElement('style');
+                style.textContent = '@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }';
+                document.head.appendChild(style);
+
+                // Wait for user click to play sound and dismiss boot
+                bootScreen.style.cursor = 'pointer';
+                bootScreen.addEventListener('click', function startXP() {
+                    bootScreen.removeEventListener('click', startXP);
+                    const audio = new Audio('https://www.myinstants.com/media/sounds/windows-xp-startup.mp3');
+                    audio.volume = 0.5;
+                    audio.play().catch(e => console.log('Audio blocked:', e));
+                    bootScreen.classList.add('fade-out');
+                    setTimeout(() => {
+                        bootScreen.style.display = 'none';
+                    }, 1000);
+                }, { once: true });
+            }, 2500);
         }
         window.addEventListener('load', simulateBoot);
 
